@@ -405,6 +405,8 @@ OpenAPI schema will be available at http://localhost:8080/docs/openapi.json.
 
 <details>
 	<summary>openapi.json</summary>
+	
+	
 ```json
 {
  "openapi": "3.0.3",
