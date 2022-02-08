@@ -403,7 +403,8 @@ Then run the app with `go run main.go` and open http://localhost:8080/docs.
 
 OpenAPI schema will be available at http://localhost:8080/docs/openapi.json.
 
-{% details openapi.json %}
+<details>
+	<summary>openapi.json</summary>
 ```json
 {
  "openapi": "3.0.3",
@@ -575,4 +576,4 @@ OpenAPI schema will be available at http://localhost:8080/docs/openapi.json.
  }
 }
 ```
-{% enddetails %}
+</details>
