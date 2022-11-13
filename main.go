@@ -48,9 +48,8 @@ func main() {
 }
 
 func getAlbums() usecase.Interactor {
-	u := usecase.NewIOI(nil, []album{}, func(ctx context.Context, _, output interface{}) error {
-		out := output.(*[]album)
-		*out = albums
+	u := usecase.NewInteractor(func(ctx context.Context, _ struct{}, output *[]album) error {
+		*output = albums
 		return nil
 	})
 	u.SetTags("Album")
@@ -59,21 +58,18 @@ func getAlbums() usecase.Interactor {
 }
 
 func postAlbums() usecase.Interactor {
-	u := usecase.NewIOI(album{}, album{}, func(ctx context.Context, input, output interface{}) error {
-		in := input.(album)
-		out := output.(*album)
-
+	u := usecase.NewInteractor(func(ctx context.Context, input album, output *album) error {
 		// Check if id is unique.
 		for _, a := range albums {
-			if a.ID == in.ID {
+			if a.ID == input.ID {
 				return status.AlreadyExists
 			}
 		}
 
 		// Add the new album to the slice.
-		albums = append(albums, in)
+		albums = append(albums, input)
 
-		*out = in
+		*output = input
 		return nil
 	})
 	u.SetTags("Album")
@@ -87,13 +83,10 @@ func getAlbumByID() usecase.Interactor {
 		ID string `path:"id"`
 	}
 
-	u := usecase.NewIOI(getAlbumByIDInput{}, album{}, func(ctx context.Context, input, output interface{}) error {
-		in := input.(getAlbumByIDInput)
-		out := output.(*album)
-
+	u := usecase.NewInteractor(func(ctx context.Context, input getAlbumByIDInput, output *album) error {
 		for _, album := range albums {
-			if album.ID == in.ID {
-				*out = album
+			if album.ID == input.ID {
+				*output = album
 				return nil
 			}
 		}
